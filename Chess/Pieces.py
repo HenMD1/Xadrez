@@ -25,7 +25,6 @@ class Piece:
 
 class King(Piece):
     inCheck = False
-
     bimg = pygame.image.load('Chess/Imgs/KingB.png')
     wimg = pygame.image.load('Chess/Imgs/KingW.png')
 
@@ -311,7 +310,6 @@ class Queen(Piece):
 
         return possMoves
 
-    
 ##
 ##
 ##
