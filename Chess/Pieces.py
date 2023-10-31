@@ -17,7 +17,7 @@ class Piece:
         self.coord = newCoords
 
     def updatePos(self):
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
 ##
 ##
@@ -31,8 +31,8 @@ class King(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()
@@ -131,8 +131,8 @@ class Queen(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()
@@ -321,8 +321,8 @@ class Knight(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()
@@ -436,8 +436,8 @@ class Bishop(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()
@@ -548,8 +548,8 @@ class Pawn(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()
@@ -614,8 +614,8 @@ class Rook(Piece):
     def __init__(self, color, coord) -> None:
         super().__init__(color, coord)
         self.img = self.bimg if self.color == 'b' else self.wimg
-        self.img = pygame.transform.smoothscale(self.img, (145, 145))
-        self.rect = self.img.get_rect(topleft = (self.coord[1] * 150, self.coord[0] * 150))
+        self.img = pygame.transform.smoothscale(self.img, (90, 90))
+        self.rect = self.img.get_rect(topleft = (self.coord[1] * 95, self.coord[0] * 95))
 
     def possibleMoves(self, board):
         possMoves = list()

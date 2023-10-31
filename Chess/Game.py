@@ -1,12 +1,12 @@
 import pygame
 from Pieces import Pawn
-from sys import exit
 from Board import ChessBoard
+from sys import exit
 
 pygame.init()
 
 class Game:
-    sc = pygame.display.set_mode((1200, 1200))
+    sc = pygame.display.set_mode((760, 760))
     clock = pygame.time.Clock()
     chess_board = ChessBoard()
     validMoves = list()
@@ -34,8 +34,8 @@ class Game:
         if self.validMoves and self.selectedPiece:
             for move in self.validMoves:
                 if move.collidepoint(pygame.mouse.get_pos()):
-                    x = round(move.x / 150)
-                    y = round(move.y / 150)
+                    x = round(move.x / 95)
+                    y = round(move.y / 95)
                     self.chess_board.board[self.selectedPiece.coord[0]][self.selectedPiece.coord[1]] = '-'
                     self.selectedPiece.changeCoords((y, x))
                     self.chess_board.board[y][x] = self.selectedPiece
@@ -52,8 +52,8 @@ class Game:
     def drawPossibleMoves(self):
         if self.selectedPiece:
             for move in self.selectedPiece.possibleMoves(self.chess_board.board):
-                self.validMoves.append(pygame.rect.Rect(move[1] * 150, move[0] * 150, 150, 150))
-                pygame.draw.rect(self.sc, (0, 200, 0, 50), pygame.rect.Rect(move[1] * 150, move[0] * 150, 150, 150))
+                self.validMoves.append(pygame.rect.Rect(move[1] * 95, move[0] * 95, 95, 95))
+                pygame.draw.rect(self.sc, (0, 200, 0, 50), pygame.rect.Rect(move[1] * 95, move[0] * 95, 95, 95))
 
     def run(self):
         while True:
