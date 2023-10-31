@@ -6,7 +6,6 @@ pygame.init()
 class ChessBoard:
 
     img = pygame.image.load('Chess/Imgs/ChessPattern.png')
-    #img = pygame.transform.smoothscale(img, (760, 760))
 
     board = [['-', '-', '-', '-', '-', '-', '-', '-'],
              ['-', '-', '-', '-', '-', '-', '-', '-'],
