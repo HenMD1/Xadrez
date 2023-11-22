@@ -11,25 +11,31 @@ class Game:
     clock = pygame.time.Clock()
     chess_board = ChessBoard()
     validMoves = list()
+    pieceList = list()
     turn = 'w'
     selectedPiece = None
+    selectedPieceValidMoves = None
 
     def drawPieces(self):
-        for row in self.chess_board.board:
-            for square in row:
-                if square != '-':
-                    self.sc.blit(square.img, square.rect)
+        for piece in self.pieceList:
+            self.sc.blit(piece.img, piece.rect)
 
-    def checkSelection(self):
+    def getPiecesList(self):
+        self.pieceList = list()
         for row in self.chess_board.board:
             for piece in row:
                 if piece != '-':
-                    if piece.color == self.turn:
-                        piece.selected = False
-                        self.validMoves = list()
-                        if piece.rect.collidepoint(pygame.mouse.get_pos()):
-                            piece.selected = True
-                            self.selectedPiece = piece
+                    self.pieceList.append(piece)
+
+
+    def checkSelection(self):
+        for piece in self.pieceList:
+            if piece.color == self.turn:
+                piece.selected = False
+                self.validMoves = list()
+                if piece.rect.collidepoint(pygame.mouse.get_pos()):
+                    piece.selected = True
+                    self.selectedPiece = piece
 
     def changePosition(self):
         if self.validMoves and self.selectedPiece:
@@ -52,8 +58,8 @@ class Game:
 
     def drawPossibleMoves(self):
         if self.selectedPiece:
-            if not self.validMoves:
-                for move in self.selectedPiece.possibleMoves(self.chess_board.board):
+            if not self.validMoves and self.selectedPieceValidMoves:
+                for move in self.selectedPieceValidMoves:
                         self.validMoves.append(pygame.rect.Rect(move[1] * 95, move[0] * 95, 95, 95))
 
         for move in self.validMoves:
@@ -66,26 +72,51 @@ class Game:
     def checkCheck(self, color):
         otherMoves = list()
 
-        for row in self.chess_board.board:
-            for piece in row:
-                if piece != '-':
-                    if isinstance(piece, King) and piece.color == color:
-                        king = piece
+        for piece in self.pieceList:
+            if isinstance(piece, King) and piece.color == color:
+                king = piece
 
-        for row in self.chess_board.board:
-            for piece in row:
-                if piece != '-':
-                    if not isinstance(piece, King) and piece.color != color:
-                        for move in piece.possibleMoves(self.chess_board.board):
-                            otherMoves.append(move)
+        for piece in self.pieceList:
+            if piece != '-':
+                if not isinstance(piece, King) and piece.color != color:
+                    for move in piece.possibleMoves(self.chess_board.board):
+                        otherMoves.append(move)
 
         list(set(otherMoves))
 
         if king.coord in otherMoves:
             return True
         
+    def removeUnCheckMoves(self):
+        KeepCheckMoves = list()
+        if self.turn == 'w':
+            for piece in self.pieceList:
+                if piece.color == 'w':
+                    KeepCheckMoves = list()
+                    possMoves = piece.possibleMoves(self.chess_board.board)
+                    print(piece)
+                    print(piece.coord)
+                    for move in possMoves:
+                        prevPos = piece.coord
+                        piece.changeCoords(move)
+                        if self.checkCheck('w') and move not in KeepCheckMoves:
+                            print(move)
+                            KeepCheckMoves.append(move)
+                        piece.changeCoords(prevPos)
+
+        print('34875934875345')
+        print(KeepCheckMoves) # KeepCheckMoves sempre vazio!!!!
+
+
+        if self.selectedPiece:
+            print(self.selectedPiece)
+            print(self.selectedPiece.coord)
+            print(KeepCheckMoves)
+            self.selectedPieceValidMoves = list(set(self.selectedPiece.possibleMoves(self.chess_board.board)) - set(KeepCheckMoves))
+
 
     def run(self):
+        self.getPiecesList()
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -94,16 +125,19 @@ class Game:
                     if event.button == 1:
                         self.changePosition()
                         self.selectedPiece = None
+                        self.getPiecesList()
                         self.checkSelection()
 
-                    elif event.button == 2:
-                        self.selectedPiece = None
+                    if self.selectedPiece:
+                        self.selectedPieceValidMoves = self.selectedPiece.possibleMoves(self.chess_board.board)
+                        
+                    self.removeUnCheckMoves()
 
             self.sc.blit(self.chess_board.img, (0, 0))
 
             self.drawPieces()
             self.drawPossibleMoves()
-            print(self.checkCheck('w'))
+            
 
 
             pygame.display.update()
